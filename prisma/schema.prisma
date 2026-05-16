@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  username        String   @unique
+  passwordHash    String
+  displayName     String
+  bio             String?
+  avatarUrl       String?
+  bannerUrl       String?
+  isEmailVerified Boolean  @default(false)
+  playlistPrivate Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tracks        Track[]
+  resetTokens   PasswordResetToken[]
+  followers     Follow[] @relation("Following")
+  following     Follow[] @relation("Follower")
+  likesGiven    Like[]   @relation("LikeGiver")
+  likesReceived Like[]   @relation("LikeReceiver")
+}
+
+model Track {
+  id        String   @id @default(cuid())
+  userId    String
+  url       String
+  platform  String
+  embedUrl  String
+  title     String
+  artist    String?
+  thumbnail String?
+  note      String?
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+}
+
+model Like {
+  id         String   @id @default(cuid())
+  giverId    String
+  receiverId String
+  createdAt  DateTime @default(now())
+
+  giver    User @relation("LikeGiver", fields: [giverId], references: [id], onDelete: Cascade)
+  receiver User @relation("LikeReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([giverId, receiverId])
+}

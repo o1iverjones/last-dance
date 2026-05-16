@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #101419;
+    color: #FFFDF5;
+  }
+
+  ::selection {
+    background-color: #ff7d37;
+    color: #101419;
+  }
+
+  input, textarea {
+    color-scheme: dark;
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full bg-panel border border-charcoal rounded-md px-3 py-2 text-sm text-white placeholder-muted focus:outline-none focus:ring-2 focus:ring-laser;
+  }
+
+  .btn-primary {
+    @apply bg-laser text-floral rounded-md px-4 py-2 text-sm font-medium hover:bg-blue-700 disabled:opacity-40 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply border border-charcoal text-floral rounded-md px-4 py-2 text-sm hover:bg-panel-hover disabled:opacity-40 transition-colors;
+  }
+
+  .card {
+    @apply bg-panel border border-charcoal rounded-xl;
+  }
+}
