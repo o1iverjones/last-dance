@@ -1,11 +1,10 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM = "Last Dance <onboarding@resend.dev>";
 const APP_NAME = "Last Dance";
 
 export async function sendPasswordResetEmail(to: string, resetUrl: string) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
     from: FROM,
     to,
