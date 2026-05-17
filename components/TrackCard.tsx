@@ -24,9 +24,10 @@ type Props = {
   isActive?: boolean;
   onEnded?: () => void;
   audioOnly?: boolean;
+  sessionKey?: number;
 };
 
-export default function TrackCard({ track, isOwner, onDelete, isActive = false, onEnded, audioOnly = false }: Props) {
+export default function TrackCard({ track, isOwner, onDelete, isActive = false, onEnded, audioOnly = false, sessionKey = 0 }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -86,7 +87,7 @@ export default function TrackCard({ track, isOwner, onDelete, isActive = false, 
       </div>
 
       <div className="px-3 pb-3">
-        <EmbedPlayer track={track} isActive={isActive} onEnded={onEnded ?? (() => {})} audioOnly={audioOnly} />
+        <EmbedPlayer track={track} isActive={isActive} onEnded={onEnded ?? (() => {})} audioOnly={audioOnly} sessionKey={sessionKey} />
       </div>
 
       {track.note && (

@@ -52,6 +52,7 @@ export default function PlaylistClient({
   const [showShare, setShowShare] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [audioOnly, setAudioOnly] = useState(false);
+  const [sessionKey, setSessionKey] = useState(0);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -99,6 +100,7 @@ export default function PlaylistClient({
 
   function playAll() {
     if (tracks.length === 0) return;
+    setSessionKey((k) => k + 1);
     setActiveIndex(0);
   }
 
@@ -277,6 +279,7 @@ export default function PlaylistClient({
                     isActive={activeIndex === i}
                     onEnded={next}
                     audioOnly={audioOnly}
+                    sessionKey={sessionKey}
                   />
                 ))}
               </div>

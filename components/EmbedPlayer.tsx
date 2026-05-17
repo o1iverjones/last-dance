@@ -8,6 +8,7 @@ type Props = {
   isActive: boolean;
   onEnded: () => void;
   audioOnly: boolean;
+  sessionKey?: number;
 };
 
 function buildSrc(track: Track, isActive: boolean): string {
@@ -27,7 +28,7 @@ function buildSrc(track: Track, isActive: boolean): string {
   }
 }
 
-export default function EmbedPlayer({ track, isActive, onEnded, audioOnly }: Props) {
+export default function EmbedPlayer({ track, isActive, onEnded, audioOnly, sessionKey = 0 }: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   // Stable ref so event handlers don't go stale
   const onEndedRef = useRef(onEnded);
@@ -88,7 +89,7 @@ export default function EmbedPlayer({ track, isActive, onEnded, audioOnly }: Pro
 
   const src = buildSrc(track, isActive);
   // key forces iframe remount when isActive changes so autoplay params take effect
-  const ikey = `${track.id}-${isActive}`;
+  const ikey = `${track.id}-${isActive}-${sessionKey}`;
 
   if (track.platform === "soundcloud") {
     return (
