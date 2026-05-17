@@ -36,8 +36,13 @@ export default async function ProfilePage({ params }: Props) {
 
   if (user.playlistPrivate && !isOwner) {
     return (
-      <div className="text-center py-20">
+      <div className="text-center py-20 flex flex-col items-center gap-6">
         <p className="text-lg font-medium text-floral">This playlist is private.</p>
+        <img
+          src="/private.png"
+          alt="Closed for a private party"
+          className="w-80 max-w-full rounded-xl opacity-90"
+        />
       </div>
     );
   }
